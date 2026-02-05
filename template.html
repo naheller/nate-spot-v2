@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        $if(title)$
+        <title>$title$ - nate.spot</title>
+        $else$
+        <title>nate.spot</title>
+        $endif$
+        <meta name="generator" content="pandoc" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=yes"
+        />
+        <meta name="author" content="Nathan Heller" />
+        $if(date)$
+        <meta name="dcterms.date" content="$date$" />
+        $endif$
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body>
+        $for(include-before)$ $include-before$ $endfor$
+        <main>
+            $if(title)$
+            <h1>$title$</h1>
+            $endif$ $if(date)$
+            <time datetime="$date$">$date$</time>
+            $endif$ $body$
+        </main>
+        $for(include-after)$ $include-after$ $endfor$
+    </body>
+</html>
