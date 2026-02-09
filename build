@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# TODO:
+# - Images (with compression that can be skipped if image exists already)
+# - Avoid file name collisions?
+# - Internal wikilinks (mostly done)
+# - Use updated_at timestamp? Can this data be lost if files are moved/copied?
+
+# -e → exit on error
+# -u → error on unset variables
+# -o pipefail → fail if any part of a pipeline fails
+set -euo pipefail
+
+# remove apostrophes
+# replace non-alphanumerics with hyphens
+# trim leading/trailing hyphens
+function slugify() {
+    echo "$1" |
+    tr '[:upper:]' '[:lower:]' |
+    sed -E "s/['’]//g; s/[^a-z0-9]+/-/g; s/^-+|-+$//g"
+}
+
+notes_dir="$HOME/Documents/Notes"
+proj_dir="$HOME/Projects/nate-spot-v2"
+site_dir="$proj_dir/site"
+tags_dir="$site_dir/tags"
+exclude_dir="private"
+
+# Clear out site directory
+rm -rf "$site_dir"
+mkdir -p "$tags_dir" # Make /site and /site/tags
+
+# Copy styles over to /site
+cp "$proj_dir/styles.css" "$site_dir/styles.css"
+
+# Make notes index md page. To be deleted after pandoc conversion.
+notes_index_filename="notes-index"
+notes_index_md="$site_dir/$notes_index_filename.md"
+touch $notes_index_md
+
+# Make tags index md page. To be deleted after pandoc conversion.
+tags_index_md="$tags_dir/index.md"
+touch $tags_index_md
+
+# For each markdown file:
+# 1. Create its html page
+# 2. Extract its tags (if any)
+# 3. Create a markdown page for each tag (if it doesn't exist)
+# 4. Add a link to the post in the tag page
+find "$notes_dir" \
+    -type d -name "$exclude_dir" -prune -o \
+    -type f -name "*.md" -print0 | \
+    while IFS= read -r -d '' file; do
+        title=$(basename "$file" .md)
+        slug=$(slugify "$title")
+        page_dir="$site_dir/$slug"
+
+        echo "Making page: $slug"
+
+        mkdir -p "$page_dir" # Assumes directory does not exist. Duplicate file names are possible...
+        tags=$(
+            pandoc "$file" -o "$page_dir/index.html" \
+                --metadata title="$title" \
+                --lua-filter=meta.lua \
+                --template template.html
+        )
+
+        # Add link to note in notes index markdown file
+        echo "- [$title](/$slug)" >> $notes_index_md
+
+        # Make tags pages
+        IFS=',' read -a tag_array <<< "$tags"
+
+        for tag in "${tag_array[@]}"; do
+            tag_page="$tags_dir/$tag.md"
+
+            if [[ ! -f "$tag_page" ]]; then
+                # Creates /site/$tag.md. To be deleted after pandoc conversion.
+                touch "$tag_page"
+            fi
+
+            echo "- [$title](/$slug)" >> $tag_page
+        done
+done
+
+# For each tag markdown file:
+# 1. Create its html page
+# 2. Add a link to the tag in the tag index markdown file
+for tag_md in "$tags_dir"/*.md; do
+    # echo $tag_md
+    # Skip index.md, as it's not meant to be converted into a tag
+    if [[ "$tag_md" == "$tags_dir/index.md" ]]; then
+        continue
+    fi
+
+    # [ -e "$tag_md" ] || continue  # handle no matches
+    tag_title=$(basename "$tag_md" .md)
+    tag_dir="$tags_dir/$tag_title"
+
+    echo "Making tag: $tag_title"
+
+    # Make /site/tags/$tag_title
+    mkdir $tag_dir
+
+    tag_page="$tag_dir/index.html"
+
+    pandoc "$tag_md" -o "$tag_page" \
+        --metadata title="Notes tagged: $tag_title" \
+        --template template.html
+
+    echo "- [$tag_title](/tags/$tag_title)" >> $tags_index_md
+
+    rm $tag_md
+done
+
+# Make notes index page
+echo "Making notes index page"
+
+notes_index_folder="$site_dir/$notes_index_filename"
+mkdir $notes_index_folder
+
+notes_index_html="$notes_index_folder/index.html"
+
+pandoc "$notes_index_md" -o "$notes_index_html" \
+    --metadata title="All Notes" \
+    --template template.html
+
+rm $notes_index_md
+
+# Make tags index page
+echo "Making tags index page"
+tags_index_html="$tags_dir/index.html"
+
+pandoc "$tags_index_md" -o "$tags_index_html" \
+    --metadata title=Tags \
+    --template template.html
+
+rm $tags_index_md
+
+# tags=$(pandoc "md/My First Post.md" -o html/post.html --lua-filter=meta.lua --template template.html)
+# title=$(jq -r '.title' <<<"$json")
+# echo "$tags"
+
+# readarray -t meta_array < <(pandoc md/post.md --lua-filter=meta.lua)
+# printf '%s\n' "${meta_array[0]}"
+
+# IFS=',' read -a meta_list <<< "$meta_string"
+
+# for i in "${meta_list[@]}"; do
+#     echo $i
+# done
+#
+# <!--
