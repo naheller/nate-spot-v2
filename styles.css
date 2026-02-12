@@ -1,31 +1,18 @@
-/*@font-face {
-    font-family: "Rubik";
-    src: url("./Rubik.ttf") format("truetype");
-    font-style: normal;
-}
-
 @font-face {
-    font-family: "Rubik";
-    src: url("./Rubik-Italic.ttf") format("truetype");
-    font-style: italic;
-}
-
-@font-face {
+    font-display: swap;
     font-family: "Libre Baskerville";
-    src: url("./LibreBaskerville.ttf") format("truetype");
     font-style: normal;
+    font-weight: 400;
+    src: url("./libre-baskerville.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: "Libre Baskerville";
-    src: url("./LibreBaskerville-Italic.ttf") format("truetype");
-    font-style: italic;
+    font-display: swap;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./rubik.woff2") format("woff2");
 }
-
-@font-face {
-    font-family: "JetBrains Mono";
-    src: url("./JetBrainsMono.ttf") format("truetype");
-}*/
 
 /* *, */
 /* ::before, */
@@ -33,14 +20,20 @@
 /* 	box-sizing: border-box; */
 /* } */
 
+:root {
+    --sans-serif: "Rubik", sans-serif;
+    --serif: "Libre Baskerville", serif;
+}
+
 html {
-    font-family: sans-serif;
+    font-family: var(--sans-serif);
     font-size: 22px;
     background-color: floralwhite;
+    overflow-wrap: break-word;
 }
 
 body {
-    max-width: 750px;
+    max-width: 700px;
     margin: auto;
     padding: 2rem;
 }
@@ -49,28 +42,34 @@ a {
     color: black;
 }
 
-nav > a {
-    text-decoration: none;
-    font-family: sans-serif;
+/*ul {
+    list-style-type: circle;
+}*/
+
+/*header > hr {
+    border: 1px solid black;
+}*/
+
+nav {
+    display: flex;
+    justify-content: space-between;
 }
 
-nav > a:hover {
+nav a {
+    text-decoration: none;
+}
+
+nav a:hover {
     text-decoration: underline;
 }
 
-nav > a:not(:last-child) {
-    margin-right: 1rem;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+nav > #nav-links > a:not(:last-child) {
+    margin-right: 1em;
 }
 
 #site-name {
-    margin: 0;
-    font-size: 1.25rem;
+    font-family: var(--serif);
+    font-weight: bold;
 }
 
 h1,
@@ -80,11 +79,26 @@ h4,
 h5,
 h6 {
     margin-block-start: 1.5em;
-    font-family: serif;
+    font-family: var(--serif);
 }
 
 h1 {
-    margin-block-end: 1em;
+    font-size: 1.5em;
+    /*margin-block-end: 1em;*/
+}
+
+h2 {
+    font-size: 1.3em;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 1em;
 }
 
 p {
@@ -92,10 +106,6 @@ p {
     margin-block-start: 1.5em;
     margin-block-end: 1.5em;
 }
-
-/*time {
-    font-family: "JetBrains Mono", monospace;
-}*/
 
 hr {
     border: 1px solid black;
@@ -110,7 +120,7 @@ code {
 }
 
 pre {
-    overflow-x: scroll;
+    overflow-x: auto;
     padding: 0.5rem;
 }
 
@@ -129,8 +139,9 @@ li:not(:last-child) {
 }
 
 blockquote {
-    font-style: italic;
-    font-family: serif;
+    font-size: 0.9em;
+    /*font-family: var(--serif);*/
+    /*font-style: italic;*/
     border: 2px solid #565656;
     border-left: 0.75em solid #565656;
     padding: 1em 2em;
@@ -140,6 +151,10 @@ blockquote {
 
 blockquote > p {
     margin: 0;
+}
+
+blockquote > p:not(:last-child) {
+    margin-bottom: 1em;
 }
 
 img {
@@ -169,7 +184,7 @@ code::selection {
     background: #dccfc0;
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 700px) {
     html {
         font-size: 16px;
     }
@@ -182,6 +197,10 @@ code::selection {
     ul,
     ol {
         font-size: large;
+    }
+
+    blockquote > p {
+        font-size: medium;
     }
 
     pre,

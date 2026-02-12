@@ -5,6 +5,7 @@
 # - Avoid file name collisions?
 # - Internal wikilinks (mostly done)
 # - Use updated_at timestamp? Can this data be lost if files are moved/copied?
+# - Do I want nate.spot/my-note or nate.spot/notes/my-note?
 
 # -e → exit on error
 # -u → error on unset variables
@@ -20,40 +21,73 @@ function slugify() {
     sed -E "s/['’]//g; s/[^a-z0-9]+/-/g; s/^-+|-+$//g"
 }
 
-notes_dir="$HOME/Documents/Notes"
+notes_dir="$HOME/Documents/Notes/Natespot"
 proj_dir="$HOME/Projects/nate-spot-v2"
 site_dir="$proj_dir/site"
-tags_dir="$site_dir/tags"
-exclude_dir="private"
 
-# Clear out site directory
+temp_dir="$proj_dir/temp"
+notes_html_dir="$site_dir/notes"
+tags_dir="$site_dir/tags"
+tags_dir_temp="$temp_dir/tags"
+# exclude_dir="private"
+
+# Reset site directory
 rm -rf "$site_dir"
-mkdir -p "$tags_dir" # Make /site and /site/tags
+rm -rf "$temp_dir"
+
+mkdir -p "$notes_html_dir" # Make /site and /site/notes
+mkdir -p "$tags_dir" # Make /site/tags
+mkdir -p "$tags_dir_temp" # make /temp and /temp/tags
 
 # Copy styles over to /site
 cp "$proj_dir/styles.css" "$site_dir/styles.css"
+cp "$proj_dir/libre-baskerville.woff2" "$site_dir/libre-baskerville.woff2"
+cp "$proj_dir/rubik.woff2" "$site_dir/rubik.woff2"
 
-# Make notes index md page. To be deleted after pandoc conversion.
-notes_index_filename="notes-index"
-notes_index_md="$site_dir/$notes_index_filename.md"
-touch $notes_index_md
+# Set up home, notes, tags, and temp page file paths
+home_page_name="_Home"
+notes_page_name="_Notes"
+tags_page_name="_Tags"
 
-# Make tags index md page. To be deleted after pandoc conversion.
-tags_index_md="$tags_dir/index.md"
-touch $tags_index_md
+home_page_md="$notes_dir/$home_page_name.md"
+notes_page_md="$notes_dir/$notes_page_name.md"
+tags_page_md="$notes_dir/$tags_page_name.md"
+
+home_page_md_temp="$temp_dir/$home_page_name.md"
+notes_page_md_temp="$temp_dir/$notes_page_name.md"
+tags_page_md_temp="$temp_dir/$tags_page_name.md"
+
+cp $notes_page_md $notes_page_md_temp
+cp $tags_page_md $tags_page_md_temp
+
+home_page_html="$site_dir/index.html"
+notes_page_html="$notes_html_dir/index.html"
+tags_page_html="$tags_dir/index.html"
+
+# Begin processing
 
 # For each markdown file:
 # 1. Create its html page
 # 2. Extract its tags (if any)
 # 3. Create a markdown page for each tag (if it doesn't exist)
 # 4. Add a link to the post in the tag page
+#
+# For reference, how to exclude a dir:
+# -type d -name "$exclude_dir" -prune -o \
+#
 find "$notes_dir" \
-    -type d -name "$exclude_dir" -prune -o \
     -type f -name "*.md" -print0 | \
     while IFS= read -r -d '' file; do
         title=$(basename "$file" .md)
         slug=$(slugify "$title")
         page_dir="$site_dir/$slug"
+
+        # Don't make the home, notes, or tags pages into notes
+        if [[ "$title" == $home_page_name ]] ||
+            [[ "$title" == $notes_page_name ]] ||
+            [[ "$title" == $tags_page_name ]]; then
+            continue
+        fi
 
         echo "Making page: $slug"
 
@@ -62,17 +96,18 @@ find "$notes_dir" \
             pandoc "$file" -o "$page_dir/index.html" \
                 --metadata title="$title" \
                 --lua-filter=meta.lua \
-                --template template.html
+                --template template.html \
+                --include-before-body header.html
         )
 
         # Add link to note in notes index markdown file
-        echo "- [$title](/$slug)" >> $notes_index_md
+        echo "- [$title](/$slug)" >> $notes_page_md_temp
 
         # Make tags pages
         IFS=',' read -a tag_array <<< "$tags"
 
         for tag in "${tag_array[@]}"; do
-            tag_page="$tags_dir/$tag.md"
+            tag_page="$tags_dir_temp/$tag.md"
 
             if [[ ! -f "$tag_page" ]]; then
                 # Creates /site/$tag.md. To be deleted after pandoc conversion.
@@ -86,13 +121,8 @@ done
 # For each tag markdown file:
 # 1. Create its html page
 # 2. Add a link to the tag in the tag index markdown file
-for tag_md in "$tags_dir"/*.md; do
-    # echo $tag_md
-    # Skip index.md, as it's not meant to be converted into a tag
-    if [[ "$tag_md" == "$tags_dir/index.md" ]]; then
-        continue
-    fi
 
+for tag_md in "$tags_dir_temp"/*.md; do
     # [ -e "$tag_md" ] || continue  # handle no matches
     tag_title=$(basename "$tag_md" .md)
     tag_dir="$tags_dir/$tag_title"
@@ -105,37 +135,48 @@ for tag_md in "$tags_dir"/*.md; do
     tag_page="$tag_dir/index.html"
 
     pandoc "$tag_md" -o "$tag_page" \
-        --metadata title="Notes tagged: $tag_title" \
-        --template template.html
+        --metadata title="Notes on $tag_title" \
+        --template template.html \
+        --include-before-body header.html
 
-    echo "- [$tag_title](/tags/$tag_title)" >> $tags_index_md
+    echo "- [$tag_title](/tags/$tag_title)" >> $tags_page_md_temp
 
     rm $tag_md
 done
 
+# Make home page
+echo "Making home page"
+# site_index_md="$notes_dir/$home_page_filename.md"
+
+pandoc "$home_page_md" -o "$home_page_html" \
+    --template template.html \
+    --include-before-body header.html
+
 # Make notes index page
-echo "Making notes index page"
+echo "Making notes page"
 
-notes_index_folder="$site_dir/$notes_index_filename"
-mkdir $notes_index_folder
+# notes_index_folder="$site_dir/notes"
+# mkdir $notes_index_folder
 
-notes_index_html="$notes_index_folder/index.html"
+# notes_index_html="$notes_index_folder/index.html"
 
-pandoc "$notes_index_md" -o "$notes_index_html" \
-    --metadata title="All Notes" \
-    --template template.html
+pandoc "$notes_page_md_temp" -o "$notes_page_html" \
+    --template template.html \
+    --include-before-body header.html
 
-rm $notes_index_md
+# rm $notes_index_md
 
 # Make tags index page
-echo "Making tags index page"
-tags_index_html="$tags_dir/index.html"
+echo "Making tags page"
 
-pandoc "$tags_index_md" -o "$tags_index_html" \
-    --metadata title=Tags \
-    --template template.html
+pandoc "$tags_page_md_temp" -o "$tags_page_html" \
+    --template template.html \
+    --include-before-body header.html
 
-rm $tags_index_md
+# Remove temp directory
+echo "Removing temp directory"
+rm -rf "$temp_dir"
+
 
 # tags=$(pandoc "md/My First Post.md" -o html/post.html --lua-filter=meta.lua --template template.html)
 # title=$(jq -r '.title' <<<"$json")
