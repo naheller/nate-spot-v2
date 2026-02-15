@@ -25,6 +25,9 @@ notes_dir="$HOME/Documents/Notes/Natespot"
 proj_dir="$HOME/Projects/nate-spot-v2"
 site_dir="$proj_dir/site"
 
+images_dir_source="$notes_dir/images"
+# images_dir_dest="$site_dir/images"
+
 temp_dir="$proj_dir/temp"
 notes_html_dir="$site_dir/notes"
 tags_dir="$site_dir/tags"
@@ -38,8 +41,10 @@ rm -rf "$temp_dir"
 mkdir -p "$notes_html_dir" # Make /site and /site/notes
 mkdir -p "$tags_dir" # Make /site/tags
 mkdir -p "$tags_dir_temp" # make /temp and /temp/tags
+# mkdir -p "$images_dir_dest" # Make /site/images
 
-# Copy styles over to /site
+# Copy images and styles over to /site
+cp -r "$images_dir_source" "$site_dir"
 cp "$proj_dir/styles.css" "$site_dir/styles.css"
 cp "$proj_dir/libre-baskerville.woff2" "$site_dir/libre-baskerville.woff2"
 cp "$proj_dir/rubik.woff2" "$site_dir/rubik.woff2"

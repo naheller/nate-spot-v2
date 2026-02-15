@@ -14,11 +14,15 @@
     src: url("./rubik.woff2") format("woff2");
 }
 
-/* *, */
-/* ::before, */
-/* ::after { */
-/* 	box-sizing: border-box; */
-/* } */
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
 
 :root {
     --sans-serif: "Rubik", sans-serif;
@@ -27,13 +31,13 @@
 
 html {
     font-family: var(--sans-serif);
-    font-size: 22px;
+    font-size: 20px;
     background-color: floralwhite;
     overflow-wrap: break-word;
 }
 
 body {
-    max-width: 700px;
+    max-width: 725px;
     margin: auto;
     padding: 2rem;
 }
@@ -53,6 +57,7 @@ a {
 nav {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.5rem;
 }
 
 nav a {
@@ -72,39 +77,41 @@ nav > #nav-links > a:not(:last-child) {
     font-weight: bold;
 }
 
+main > *:not(:first-child) {
+    margin-top: 1.25rem;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    margin-block-start: 1.5em;
+    margin-top: 2rem !important;
     font-family: var(--serif);
 }
 
 h1 {
-    font-size: 1.5em;
-    /*margin-block-end: 1em;*/
+    margin-top: 2.5rem !important;
+    font-size: 1.5rem;
 }
 
 h2 {
-    font-size: 1.3em;
+    font-size: 1.25rem;
 }
 
 h3 {
-    font-size: 1.1em;
+    font-size: 1rem;
 }
 
-h4,
-h5,
-h6 {
-    font-size: 1em;
+time {
+    display: block;
 }
 
 p {
     line-height: 1.5;
-    margin-block-start: 1.5em;
-    margin-block-end: 1.5em;
+    /*margin-block-start: 1.5em;
+    margin-block-end: 1.5em;*/
 }
 
 hr {
@@ -139,27 +146,27 @@ li:not(:last-child) {
 }
 
 blockquote {
-    font-size: 0.9em;
+    /*font-size: 0.9rem;*/
     /*font-family: var(--serif);*/
     /*font-style: italic;*/
     border: 2px solid #565656;
-    border-left: 0.75em solid #565656;
-    padding: 1em 2em;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
+    border-left: 0.75rem solid #565656;
+    padding: 1rem 1.5rem;
+    /*margin-inline-start: 0;
+    margin-inline-end: 0;*/
 }
 
 blockquote > p {
-    margin: 0;
+    font-size: 0.9rem;
 }
 
-blockquote > p:not(:last-child) {
-    margin-bottom: 1em;
+blockquote > p:not(:first-child) {
+    margin-top: 1em;
 }
 
 img {
     max-width: 100%;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 5px;
 }
 
@@ -184,7 +191,7 @@ code::selection {
     background: #dccfc0;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 725px) {
     html {
         font-size: 16px;
     }
@@ -193,15 +200,15 @@ code::selection {
         padding: 1rem;
     }
 
-    p,
+    /*p,
     ul,
     ol {
         font-size: large;
-    }
+    }*/
 
-    blockquote > p {
+    /*blockquote {
         font-size: medium;
-    }
+    }*/
 
     pre,
     code {
