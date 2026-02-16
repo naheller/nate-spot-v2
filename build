@@ -102,7 +102,8 @@ find "$notes_dir" \
                 --metadata title="$title" \
                 --lua-filter=meta.lua \
                 --template template.html \
-                --include-before-body header.html
+                --include-before-body header.html \
+                --include-after-body footer.html
         )
 
         # Add link to note in notes index markdown file
@@ -142,7 +143,8 @@ for tag_md in "$tags_dir_temp"/*.md; do
     pandoc "$tag_md" -o "$tag_page" \
         --metadata title="Notes on $tag_title" \
         --template template.html \
-        --include-before-body header.html
+        --include-before-body header.html \
+        --include-after-body footer.html
 
     echo "- [$tag_title](/tags/$tag_title)" >> $tags_page_md_temp
 
@@ -155,7 +157,8 @@ echo "Making home page"
 
 pandoc "$home_page_md" -o "$home_page_html" \
     --template template.html \
-    --include-before-body header.html
+    --include-before-body header.html \
+    --include-after-body footer.html
 
 # Make notes index page
 echo "Making notes page"
@@ -167,7 +170,8 @@ echo "Making notes page"
 
 pandoc "$notes_page_md_temp" -o "$notes_page_html" \
     --template template.html \
-    --include-before-body header.html
+    --include-before-body header.html \
+    --include-after-body footer.html
 
 # rm $notes_index_md
 
@@ -176,7 +180,8 @@ echo "Making tags page"
 
 pandoc "$tags_page_md_temp" -o "$tags_page_html" \
     --template template.html \
-    --include-before-body header.html
+    --include-before-body header.html \
+    --include-after-body footer.html
 
 # Remove temp directory
 echo "Removing temp directory"
