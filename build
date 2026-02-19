@@ -26,6 +26,7 @@ proj_dir="$HOME/Projects/nate-spot-v2"
 site_dir="$proj_dir/site"
 
 images_dir_source="$notes_dir/images"
+fonts_dir_source="$proj_dir/fonts"
 # images_dir_dest="$site_dir/images"
 
 temp_dir="$proj_dir/temp"
@@ -45,9 +46,10 @@ mkdir -p "$tags_dir_temp" # make /temp and /temp/tags
 
 # Copy images and styles over to /site
 cp -r "$images_dir_source" "$site_dir"
+cp -r "$fonts_dir_source" "$site_dir"
 cp "$proj_dir/styles.css" "$site_dir/styles.css"
-cp "$proj_dir/libre-baskerville.woff2" "$site_dir/libre-baskerville.woff2"
-cp "$proj_dir/rubik.woff2" "$site_dir/rubik.woff2"
+# cp "$proj_dir/fonts/libre-baskerville.woff2" "$site_dir/fonts/libre-baskerville.woff2"
+# cp "$proj_dir/fonts/ibm-plex-sans.woff2" "$site_dir/fonts/ibm-plex-sans.woff2"
 
 # Set up home, notes, tags, and temp page file paths
 home_page_name="_Home"
@@ -86,6 +88,7 @@ find "$notes_dir" \
         title=$(basename "$file" .md)
         slug=$(slugify "$title")
         page_dir="$site_dir/$slug"
+        updated_at=$(date -r "$file" +%Y-%m-%d)
 
         # Don't make the home, notes, or tags pages into notes
         if [[ "$title" == $home_page_name ]] ||
@@ -100,10 +103,11 @@ find "$notes_dir" \
         tags=$(
             pandoc "$file" -o "$page_dir/index.html" \
                 --metadata title="$title" \
-                --lua-filter=meta.lua \
-                --template template.html \
-                --include-before-body header.html \
-                --include-after-body footer.html
+                --metadata updated_at="$updated_at" \
+                --lua-filter=pandoc/meta.lua \
+                --template pandoc/template.html \
+                --include-before-body pandoc/header.html \
+                --include-after-body pandoc/footer.html
         )
 
         # Add link to note in notes index markdown file
@@ -142,9 +146,9 @@ for tag_md in "$tags_dir_temp"/*.md; do
 
     pandoc "$tag_md" -o "$tag_page" \
         --metadata title="Notes on $tag_title" \
-        --template template.html \
-        --include-before-body header.html \
-        --include-after-body footer.html
+        --template pandoc/template.html \
+        --include-before-body pandoc/header.html \
+        --include-after-body pandoc/footer.html
 
     echo "- [$tag_title](/tags/$tag_title)" >> $tags_page_md_temp
 
@@ -156,9 +160,9 @@ echo "Making home page"
 # site_index_md="$notes_dir/$home_page_filename.md"
 
 pandoc "$home_page_md" -o "$home_page_html" \
-    --template template.html \
-    --include-before-body header.html \
-    --include-after-body footer.html
+    --template pandoc/template.html \
+    --include-before-body pandoc/header.html \
+    --include-after-body pandoc/footer.html
 
 # Make notes index page
 echo "Making notes page"
@@ -169,9 +173,10 @@ echo "Making notes page"
 # notes_index_html="$notes_index_folder/index.html"
 
 pandoc "$notes_page_md_temp" -o "$notes_page_html" \
-    --template template.html \
-    --include-before-body header.html \
-    --include-after-body footer.html
+    --metadata title="Notes" \
+    --template pandoc/template.html \
+    --include-before-body pandoc/header.html \
+    --include-after-body pandoc/footer.html
 
 # rm $notes_index_md
 
@@ -179,20 +184,21 @@ pandoc "$notes_page_md_temp" -o "$notes_page_html" \
 echo "Making tags page"
 
 pandoc "$tags_page_md_temp" -o "$tags_page_html" \
-    --template template.html \
-    --include-before-body header.html \
-    --include-after-body footer.html
+    --metadata title="Tags" \
+    --template pandoc/template.html \
+    --include-before-body pandoc/header.html \
+    --include-after-body pandoc/footer.html
 
 # Remove temp directory
 echo "Removing temp directory"
 rm -rf "$temp_dir"
 
 
-# tags=$(pandoc "md/My First Post.md" -o html/post.html --lua-filter=meta.lua --template template.html)
+# tags=$(pandoc "md/My First Post.md" -o html/post.html --lua-filter=pandoc/meta.lua --template pandoc/template.html)
 # title=$(jq -r '.title' <<<"$json")
 # echo "$tags"
 
-# readarray -t meta_array < <(pandoc md/post.md --lua-filter=meta.lua)
+# readarray -t meta_array < <(pandoc md/post.md --lua-filter=pandoc/meta.lua)
 # printf '%s\n' "${meta_array[0]}"
 
 # IFS=',' read -a meta_list <<< "$meta_string"

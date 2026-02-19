@@ -3,15 +3,23 @@
     font-family: "Libre Baskerville";
     font-style: normal;
     font-weight: 400;
-    src: url("./libre-baskerville.woff2") format("woff2");
+    src: url("fonts/libre-baskerville.woff2") format("woff2");
 }
 
 @font-face {
     font-display: swap;
-    font-family: "Rubik";
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 400;
-    src: url("./rubik.woff2") format("woff2");
+    src: url("fonts/ibm-plex-sans.woff2") format("woff2");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Jetbrains Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: url("fonts/jetbrains-mono.woff2") format("woff2");
 }
 
 *,
@@ -25,8 +33,9 @@
 }
 
 :root {
-    --sans-serif: "Rubik", sans-serif;
+    --sans-serif: "IBM Plex Sans", sans-serif;
     --serif: "Libre Baskerville", serif;
+    --monospace: "Jetbrains Mono", monospace;
 }
 
 html {
@@ -41,7 +50,7 @@ body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    max-width: 725px;
+    max-width: 700px;
     margin: auto;
     padding: 2rem;
 }
@@ -50,13 +59,23 @@ a {
     color: black;
 }
 
-/*ul {
-    list-style-type: circle;
-}*/
+p,
+li {
+    line-height: 1.5em;
+}
 
-/*header > hr {
-    border: 1px solid black;
-}*/
+ul,
+ol {
+    padding-inline-start: 2rem;
+}
+
+li {
+    line-height: 1.5rem;
+}
+
+li::marker {
+    font-size: 0.85rem;
+}
 
 nav {
     display: flex;
@@ -72,7 +91,7 @@ nav a:hover {
     text-decoration: underline;
 }
 
-nav > #nav-links > a:not(:last-child) {
+nav #nav-links > a:not(:last-child) {
     margin-right: 1em;
 }
 
@@ -82,7 +101,7 @@ nav > #nav-links > a:not(:last-child) {
 }
 
 footer {
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 
 footer > p {
@@ -90,16 +109,25 @@ footer > p {
 }
 
 main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
 }
 
-main > * {
-    margin-top: 1.25rem;
+#note-content > * {
+    margin-top: 1.25em;
 }
 
-/*main > :last-child {
-    margin-bottom: 2.5rem;
-}*/
+#note-meta {
+    font-style: italic;
+    font-size: smaller;
+    margin-top: 3em;
+}
+
+#note-meta p {
+    margin: 0;
+}
 
 h1,
 h2,
@@ -107,13 +135,12 @@ h3,
 h4,
 h5,
 h6 {
-    margin-top: 2rem !important;
+    margin-top: 1.75em !important;
+    line-height: 1.25em;
     font-family: var(--serif);
-    line-height: 1.5rem;
 }
 
 h1 {
-    margin-top: 2.5rem !important;
     font-size: 1.5rem;
 }
 
@@ -123,16 +150,7 @@ h2 {
 
 h3 {
     font-size: 1rem;
-}
-
-time {
-    display: block;
-}
-
-p {
-    line-height: 1.5;
-    /*margin-block-start: 1.5em;
-    margin-block-end: 1.5em;*/
+    line-height: 1.5em;
 }
 
 hr {
@@ -141,10 +159,11 @@ hr {
 
 pre,
 code {
-    font-family: monospace;
+    font-family: var(--monospace);
     background-color: #565656;
     color: floralwhite;
     font-size: 0.85rem;
+    line-height: 1.5em;
 }
 
 pre {
@@ -152,7 +171,7 @@ pre {
     padding: 0.5rem;
 }
 
-p > code {
+p code {
     padding: 0.05rem 0.25rem;
 }
 
@@ -162,27 +181,16 @@ blockquote {
     border-radius: 5px;
 }
 
-li:not(:last-child) {
-    margin-bottom: 0.25rem;
-}
-
 blockquote {
-    /*font-size: 0.9rem;*/
-    /*font-family: var(--serif);*/
-    /*font-style: italic;*/
+    font-size: 0.9rem;
+    font-style: italic;
     border: 2px solid #565656;
     border-left: 0.75rem solid #565656;
     padding: 1rem 1.5rem;
-    /*margin-inline-start: 0;
-    margin-inline-end: 0;*/
-}
-
-blockquote > p {
-    font-size: 0.9rem;
 }
 
 blockquote > p:not(:first-child) {
-    margin-top: 1em;
+    margin-top: 1rem;
 }
 
 img {
@@ -198,7 +206,7 @@ figure {
     margin-right: 0;
 }
 
-figure > figcaption {
+figure figcaption {
     display: none;
 }
 
@@ -212,28 +220,13 @@ code::selection {
     background: #dccfc0;
 }
 
-@media only screen and (max-width: 725px) {
+@media only screen and (max-width: 700px) {
     html {
         font-size: 16px;
     }
 
     body {
         padding: 1rem;
-    }
-
-    /*p,
-    ul,
-    ol {
-        font-size: large;
-    }*/
-
-    /*blockquote {
-        font-size: medium;
-    }*/
-
-    pre,
-    code {
-        font-size: 1rem;
     }
 }
 

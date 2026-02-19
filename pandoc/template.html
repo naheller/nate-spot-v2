@@ -21,9 +21,23 @@
     <body>
         $for(include-before)$ $include-before$ $endfor$
         <main>
-            $if(title)$
-            <h1>$title$</h1>
-            $endif$ $body$
+            <div id="note-content">
+                $if(title)$
+                <h1>$title$</h1>
+                $endif$ $body$
+            </div>
+            <div id="note-meta">
+                $if(tags)$
+                <p>
+                    <span>Tagged:</span>
+                    $for(tags)$
+                    <a href="/tags/$tags$">$tags$</a>
+                    $endfor$
+                </p>
+                $endif$ $if(updated_at)$
+                <p>Last updated: $updated_at$</p>
+                $endif$
+            </div>
         </main>
         $for(include-after)$ $include-after$ $endfor$
     </body>
