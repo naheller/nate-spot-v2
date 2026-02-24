@@ -13,9 +13,8 @@
             content="width=device-width, initial-scale=1.0, user-scalable=yes"
         />
         <meta name="author" content="Nathan Heller" />
-        $if(date)$
-        <meta name="dcterms.date" content="$date$" />
-        $endif$
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="/normalize.css" />
         <link rel="stylesheet" href="/styles.css" />
     </head>
     <body>
@@ -35,7 +34,10 @@
                     $endfor$
                 </p>
                 $endif$ $if(updated_at)$
-                <p>Last updated: $updated_at$</p>
+                <p>
+                    Last updated:
+                    <time datetime="$updated_at$">$updated_at$</time>
+                </p>
                 $endif$
             </div>
         </main>
