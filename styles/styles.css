@@ -1,0 +1,170 @@
+:root {
+    color-scheme: light dark;
+
+    --white-3: #fafafa;
+    --white-2: #e8e8e8;
+    --white-1: #dbdbdb;
+
+    --black-1: #333333;
+    --black-2: #262626;
+    --black-3: #191919;
+    --black-4: #0c0c0c;
+}
+
+body {
+    font-size: 20px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+    color: light-dark(var(--black-3), var(--white-3));
+    background-color: light-dark(var(--white-3), var(--black-3));
+}
+
+header,
+footer {
+    color: light-dark(var(--black-1), var(--white-1));
+    background-color: light-dark(var(--white-2), var(--black-2));
+}
+
+header > nav,
+footer > div {
+    margin: 0.5em auto;
+    padding: 0 1em;
+    max-width: 700px;
+}
+
+main {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.15em;
+}
+
+h1 {
+    font-size: 1.85em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 1.25em;
+}
+
+h3 {
+    font-size: 1.15em;
+    margin-top: 1.5em;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    border-top: 1px solid light-dark(var(--white-1), var(--black-1));
+    background-color: light-dark(var(--white-1), var(--black-1));
+}
+
+code,
+pre {
+    overflow-x: auto;
+    background-color: light-dark(var(--black-3), var(--black-4));
+    color: var(--white-3);
+}
+
+pre {
+    padding: 0.5em;
+    line-height: 1.5;
+}
+
+p > code {
+    padding: 0 0.1em;
+}
+
+figure {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+figure figcaption {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+blockquote {
+    margin-block-start: 1.5em;
+    margin-block-end: 1.5em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    font-style: italic;
+    background-color: light-dark(var(--white-2), var(--black-2));
+    padding: 1em 1.5em;
+    border-left: 1em solid light-dark(var(--white-1), var(--black-1));
+    color: light-dark(var(--black-3), var(--white-3));
+}
+
+blockquote p {
+    margin: 0;
+}
+
+blockquote > p:not(:first-child) {
+    margin: 1em 0 0 0;
+}
+
+code,
+pre,
+blockquote {
+    font-size: 0.95em;
+}
+
+ul,
+ol {
+    padding-inline-start: 2em;
+}
+
+ul li::marker {
+    font-size: 0.85em;
+}
+
+#note-meta {
+    color: light-dark(var(--black-1), var(--white-1));
+    font-size: smaller;
+    margin-top: 3em;
+}
+
+#note-meta p {
+    margin: 0;
+}
+
+@media only screen and (max-width: 700px) {
+    body {
+        font-size: 18px;
+    }
+
+    main {
+        padding-top: 0;
+    }
+}

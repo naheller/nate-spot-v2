@@ -27,6 +27,7 @@ site_dir="$proj_dir/site"
 
 images_dir_source="$notes_dir/images"
 fonts_dir_source="$proj_dir/fonts"
+styles_dir_source="$proj_dir/styles"
 
 temp_dir="$proj_dir/temp"
 notes_html_dir="$site_dir/notes"
@@ -45,8 +46,7 @@ mkdir -p "$tags_dir_temp" # make /temp and /temp/tags
 # Copy images and styles over to /site
 cp -r "$images_dir_source" "$site_dir"
 cp -r "$fonts_dir_source" "$site_dir"
-cp "$proj_dir/styles.css" "$site_dir/styles.css"
-cp "$proj_dir/normalize.css" "$site_dir/normalize.css"
+cp -r "$styles_dir_source" "$site_dir"
 
 # Set up home, notes, tags, and temp page file paths
 home_page_name="_Home"
@@ -157,6 +157,7 @@ echo "Making home page"
 
 pandoc "$home_page_md" -o "$home_page_html" \
     --template pandoc/template.html \
+    --lua-filter=pandoc/meta.lua \
     --include-before-body pandoc/header.html \
     --include-after-body pandoc/footer.html
 
