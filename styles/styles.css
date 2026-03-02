@@ -1,14 +1,18 @@
 :root {
     color-scheme: light dark;
 
-    --white-3: #fafafa;
-    --white-2: #e8e8e8;
-    --white-1: #dbdbdb;
+    --light-3: #fcfcfd;
+    --light-2: #edeef2;
+    --light-1: #dee0e7;
 
-    --black-1: #333333;
-    --black-2: #262626;
-    --black-3: #191919;
-    --black-4: #0c0c0c;
+    --light-0: #cfd2dd; /* Used for note meta (dark mode) */
+    --dark-0: #494c62;
+
+    --dark-1: #3e4153;
+    --dark-2: #333545;
+    --dark-3: #282a36;
+
+    --dark-4: #1d1f27; /* Used for code bg (dark mode) */
 }
 
 body {
@@ -19,14 +23,14 @@ body {
     flex-direction: column;
     overflow-wrap: break-word;
     line-height: 1.6;
-    color: light-dark(var(--black-3), var(--white-3));
-    background-color: light-dark(var(--white-3), var(--black-3));
+    color: light-dark(var(--dark-3), var(--light-3));
+    background-color: light-dark(var(--light-3), var(--dark-3));
 }
 
 header,
 footer {
-    color: light-dark(var(--black-1), var(--white-1));
-    background-color: light-dark(var(--white-2), var(--black-2));
+    color: light-dark(var(--dark-1), var(--light-1));
+    background-color: light-dark(var(--light-2), var(--dark-2));
 }
 
 header > nav,
@@ -34,6 +38,19 @@ footer > div {
     margin: 0.5em auto;
     padding: 0 1em;
     max-width: 700px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav > div {
+    width: max-content;
+}
+
+.nav-right > a:not(:first-child) {
+    margin-left: 0.5em;
 }
 
 main {
@@ -80,15 +97,15 @@ h6 {
 hr {
     border: none;
     height: 2px;
-    border-top: 1px solid light-dark(var(--white-1), var(--black-1));
-    background-color: light-dark(var(--white-1), var(--black-1));
+    border-top: 1px solid light-dark(var(--light-1), var(--dark-1));
+    background-color: light-dark(var(--light-1), var(--dark-1));
 }
 
 code,
 pre {
     overflow-x: auto;
-    background-color: light-dark(var(--black-3), var(--black-4));
-    color: var(--white-3);
+    background-color: light-dark(var(--dark-1), var(--dark-4));
+    color: var(--light-3);
 }
 
 pre {
@@ -120,10 +137,10 @@ blockquote {
     margin-inline-start: 0;
     margin-inline-end: 0;
     font-style: italic;
-    background-color: light-dark(var(--white-2), var(--black-2));
+    background-color: light-dark(var(--light-2), var(--dark-2));
     padding: 1em 1.5em;
-    border-left: 1em solid light-dark(var(--white-1), var(--black-1));
-    color: light-dark(var(--black-3), var(--white-3));
+    border-left: 1em solid light-dark(var(--light-1), var(--dark-1));
+    color: light-dark(var(--dark-3), var(--light-3));
 }
 
 blockquote p {
@@ -150,7 +167,7 @@ ul li::marker {
 }
 
 #note-meta {
-    color: light-dark(var(--black-1), var(--white-1));
+    color: light-dark(var(--dark-0), var(--light-0));
     font-size: smaller;
     margin-top: 3em;
 }

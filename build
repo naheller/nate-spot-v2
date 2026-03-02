@@ -4,8 +4,8 @@
 # - Images (with compression that can be skipped if image exists already)
 # - Avoid file name collisions?
 # - Internal wikilinks (mostly done)
-# - Use updated_at timestamp? Can this data be lost if files are moved/copied?
-# - Do I want nate.spot/my-note or nate.spot/notes/my-note?
+# - Use updated_at timestamp? (done) Can this data be lost if files are moved/copied?
+# - Do I want nate.spot/my-note or nate.spot/notes/my-note? (the former)
 
 # -e → exit on error
 # -u → error on unset variables
@@ -80,8 +80,10 @@ tags_page_html="$tags_dir/index.html"
 # -type d -name "$exclude_dir" -prune -o \
 #
 find "$notes_dir" \
-    -type f -name "*.md" -print0 | \
-    while IFS= read -r -d '' file; do
+    -type f -name "*.md" -printf '%T@ %p\0' | \
+    sort -z -nr | \
+    while IFS= read -r -d '' entry; do
+        file="${entry#* }"
         title=$(basename "$file" .md)
         slug=$(slugify "$title")
         page_dir="$site_dir/$slug"
