@@ -159,12 +159,17 @@ blockquote {
 
 ul,
 ol {
-    padding-inline-start: 2em;
+    padding-inline-start: 1.5em;
 }
 
 ul li::marker {
     font-size: 0.85em;
 }
+
+/* TODO: Figure out how to make list spacing look right */
+/*li:not(:last-child) {
+    margin-bottom: 0.25em;
+}*/
 
 #note-meta {
     color: light-dark(var(--dark-0), var(--light-0));

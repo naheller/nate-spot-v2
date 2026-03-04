@@ -12,6 +12,7 @@
 # -o pipefail → fail if any part of a pipeline fails
 set -euo pipefail
 
+# convert to lowercase
 # remove apostrophes
 # replace non-alphanumerics with hyphens
 # trim leading/trailing hyphens
@@ -21,13 +22,17 @@ function slugify() {
     sed -E "s/['’]//g; s/[^a-z0-9]+/-/g; s/^-+|-+$//g"
 }
 
+function dash_to_space() {
+    echo "$1" | sed -E "s/[-]/ /g"
+}
+
+function capitalize() {
+    echo "${1^}"
+}
+
 notes_dir="$HOME/Documents/Notes/Natespot"
 proj_dir="$HOME/Projects/nate-spot-v2"
 site_dir="$proj_dir/site"
-
-images_dir_source="$notes_dir/images"
-fonts_dir_source="$proj_dir/fonts"
-styles_dir_source="$proj_dir/styles"
 
 temp_dir="$proj_dir/temp"
 notes_html_dir="$site_dir/notes"
@@ -43,30 +48,33 @@ mkdir -p "$notes_html_dir" # Make /site and /site/notes
 mkdir -p "$tags_dir" # Make /site/tags
 mkdir -p "$tags_dir_temp" # make /temp and /temp/tags
 
-# Copy images and styles over to /site
-cp -r "$images_dir_source" "$site_dir"
-cp -r "$fonts_dir_source" "$site_dir"
-cp -r "$styles_dir_source" "$site_dir"
+# Copy images, fonts, styles over to /site
+cp -r "$notes_dir/images" "$site_dir"
+cp -r "$proj_dir/fonts" "$site_dir"
+cp -r "$proj_dir/styles" "$site_dir"
 
 # Set up home, notes, tags, and temp page file paths
 home_page_name="_Home"
-notes_page_name="_Notes"
-tags_page_name="_Tags"
-
 home_page_md="$notes_dir/$home_page_name.md"
-notes_page_md="$notes_dir/$notes_page_name.md"
-tags_page_md="$notes_dir/$tags_page_name.md"
 
 home_page_md_temp="$temp_dir/$home_page_name.md"
-notes_page_md_temp="$temp_dir/$notes_page_name.md"
-tags_page_md_temp="$temp_dir/$tags_page_name.md"
+notes_index_md_temp="$temp_dir/Notes.md"
+tags_index_md_temp="$temp_dir/Tags.md"
 
-cp $notes_page_md $notes_page_md_temp
-cp $tags_page_md $tags_page_md_temp
+notes_index_description="All my thoughts and jots, with the most recently updated on top.\n\n"
+tags_index_description="Some of the topics I've scribbled about.\n\n"
+tag_page_description="My ramblings on this topic. See [all tags](/tags/index.html) for more.\n\n"
+
+# Use printf instead of echo so newlines (\n) are handled properly
+touch $notes_index_md_temp
+printf "$notes_index_description" >> $notes_index_md_temp
+
+touch $tags_index_md_temp
+printf "$tags_index_description" >> $tags_index_md_temp
 
 home_page_html="$site_dir/index.html"
-notes_page_html="$notes_html_dir/index.html"
-tags_page_html="$tags_dir/index.html"
+notes_index_html="$notes_html_dir/index.html"
+tags_index_html="$tags_dir/index.html"
 
 # Begin processing
 
@@ -80,7 +88,7 @@ tags_page_html="$tags_dir/index.html"
 # -type d -name "$exclude_dir" -prune -o \
 #
 find "$notes_dir" \
-    -type f -name "*.md" -printf '%T@ %p\0' | \
+    -type f ! -name "*.sync-conflict*" -name "*.md" -printf '%T@ %p\0' | \
     sort -z -nr | \
     while IFS= read -r -d '' entry; do
         file="${entry#* }"
@@ -89,10 +97,8 @@ find "$notes_dir" \
         page_dir="$site_dir/$slug"
         updated_at=$(date -r "$file" +%Y-%m-%d)
 
-        # Don't make the home, notes, or tags pages into notes
-        if [[ "$title" == $home_page_name ]] ||
-            [[ "$title" == $notes_page_name ]] ||
-            [[ "$title" == $tags_page_name ]]; then
+        # Don't make the home page into a note
+        if [[ "$title" == $home_page_name ]]; then
             continue
         fi
 
@@ -110,20 +116,20 @@ find "$notes_dir" \
         )
 
         # Add link to note in notes index markdown file
-        echo "- [$title](/$slug)" >> $notes_page_md_temp
+        echo "- [$title](/$slug)" >> $notes_index_md_temp
 
         # Make tags pages
         IFS=',' read -a tag_array <<< "$tags"
 
         for tag in "${tag_array[@]}"; do
-            tag_page="$tags_dir_temp/$tag.md"
+            tag_page_md_temp="$tags_dir_temp/$tag.md"
 
-            if [[ ! -f "$tag_page" ]]; then
-                # Creates /site/$tag.md. To be deleted after pandoc conversion.
-                touch "$tag_page"
+            if [[ ! -f "$tag_page_md_temp" ]]; then
+                touch "$tag_page_md_temp"
+                printf "$tag_page_description" >> $tag_page_md_temp
             fi
 
-            echo "- [$title](/$slug)" >> $tag_page
+            echo "- [$title](/$slug)" >> $tag_page_md_temp
         done
 done
 
@@ -142,16 +148,17 @@ for tag_md in "$tags_dir_temp"/*.md; do
     mkdir $tag_dir
 
     tag_page="$tag_dir/index.html"
+    tag_title_formatted=$(capitalize "$(dash_to_space $tag_title)")
 
     pandoc "$tag_md" -o "$tag_page" \
-        --metadata title="Notes on $tag_title" \
+        --metadata title="$tag_title_formatted" \
         --template pandoc/template.html \
         --include-before-body pandoc/header.html \
         --include-after-body pandoc/footer.html
 
-    echo "- [$tag_title](/tags/$tag_title)" >> $tags_page_md_temp
+    echo "- [$tag_title_formatted](/tags/$tag_title)" >> $tags_index_md_temp
 
-    rm $tag_md
+    # rm $tag_md
 done
 
 # Make home page
@@ -166,8 +173,10 @@ pandoc "$home_page_md" -o "$home_page_html" \
 # Make notes index page
 echo "Making notes page"
 
-pandoc "$notes_page_md_temp" -o "$notes_page_html" \
-    --metadata title="Notes" \
+notes_index_title=$(basename "$notes_index_md_temp" .md)
+
+pandoc "$notes_index_md_temp" -o "$notes_index_html" \
+    --metadata title="$notes_index_title" \
     --template pandoc/template.html \
     --include-before-body pandoc/header.html \
     --include-after-body pandoc/footer.html
@@ -175,8 +184,10 @@ pandoc "$notes_page_md_temp" -o "$notes_page_html" \
 # Make tags index page
 echo "Making tags page"
 
-pandoc "$tags_page_md_temp" -o "$tags_page_html" \
-    --metadata title="Tags" \
+tags_index_title=$(basename "$tags_index_md_temp" .md)
+
+pandoc "$tags_index_md_temp" -o "$tags_index_html" \
+    --metadata title="$tags_index_title" \
     --template pandoc/template.html \
     --include-before-body pandoc/header.html \
     --include-after-body pandoc/footer.html
