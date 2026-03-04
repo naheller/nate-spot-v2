@@ -37,7 +37,7 @@ header > nav,
 footer > div {
     margin: 0.5em auto;
     padding: 0 1em;
-    max-width: 700px;
+    max-width: 675px;
 }
 
 nav {
@@ -55,7 +55,7 @@ nav > div {
 
 main {
     width: 100%;
-    max-width: 700px;
+    max-width: 675px;
     margin: auto;
     padding: 1em;
     display: flex;
@@ -117,6 +117,11 @@ p > code {
     padding: 0 0.1em;
 }
 
+p {
+    margin-block-start: 1.25em;
+    margin-block-end: 1.25em;
+}
+
 figure {
     margin: 0;
     display: flex;
@@ -167,9 +172,9 @@ ul li::marker {
 }
 
 /* TODO: Figure out how to make list spacing look right */
-/*li:not(:last-child) {
+li:not(:last-child) {
     margin-bottom: 0.25em;
-}*/
+}
 
 #note-meta {
     color: light-dark(var(--dark-0), var(--light-0));
@@ -181,12 +186,21 @@ ul li::marker {
     margin: 0;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 675px) {
     body {
         font-size: 18px;
     }
 
     main {
-        padding-top: 0;
+        padding: 0 0.75em 1em 0.75em;
+    }
+
+    header > nav,
+    footer > div {
+        padding: 0 0.75em;
+    }
+
+    img {
+        max-width: 100vw;
     }
 }

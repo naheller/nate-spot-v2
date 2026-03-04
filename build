@@ -63,7 +63,7 @@ tags_index_md_temp="$temp_dir/Tags.md"
 
 notes_index_description="All my thoughts and jots, with the most recently updated on top.\n\n"
 tags_index_description="Some of the topics I've scribbled about.\n\n"
-tag_page_description="My ramblings on this topic. See [all tags](/tags/index.html) for more.\n\n"
+tag_page_description="My notes on this topic. Check out all the other [tags](/tags/index.html) for more.\n\n"
 
 # Use printf instead of echo so newlines (\n) are handled properly
 touch $notes_index_md_temp
