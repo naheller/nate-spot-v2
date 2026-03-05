@@ -38,6 +38,9 @@ function Image(img)
     -- Need to add leading slash to image path, since Obsidian does not do this
     img.src = "/" .. img.src
 
+    -- Enable lazy loading
+    img.attributes.loading = "lazy"
+
     return img
 end
 

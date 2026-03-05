@@ -16,13 +16,13 @@
 }
 
 body {
-    font-size: 20px;
+    font-size: 22px;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
-    line-height: 1.6;
+    line-height: 1.7;
     color: light-dark(var(--dark-3), var(--light-3));
     background-color: light-dark(var(--light-3), var(--dark-3));
 }
@@ -37,7 +37,7 @@ header > nav,
 footer > div {
     margin: 0.5em auto;
     padding: 0 1em;
-    max-width: 675px;
+    max-width: 725px;
 }
 
 nav {
@@ -55,7 +55,7 @@ nav > div {
 
 main {
     width: 100%;
-    max-width: 675px;
+    max-width: 725px;
     margin: auto;
     padding: 1em;
     display: flex;
@@ -172,9 +172,9 @@ ul li::marker {
 }
 
 /* TODO: Figure out how to make list spacing look right */
-li:not(:last-child) {
+/*li:not(:last-child) {
     margin-bottom: 0.25em;
-}
+}*/
 
 #note-meta {
     color: light-dark(var(--dark-0), var(--light-0));
@@ -186,7 +186,7 @@ li:not(:last-child) {
     margin: 0;
 }
 
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 725px) {
     body {
         font-size: 18px;
     }
@@ -200,7 +200,11 @@ li:not(:last-child) {
         padding: 0 0.75em;
     }
 
-    img {
+    /*img {
         max-width: 100vw;
+    }*/
+
+    blockquote {
+        border-left-width: 0.75em;
     }
 }
