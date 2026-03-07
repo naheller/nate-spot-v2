@@ -49,7 +49,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
-    line-height: 1.7;
+    line-height: 1.6;
     color: light-dark(var(--dark-3), var(--light-3));
     background-color: light-dark(var(--light-3), var(--dark-3));
 }
@@ -213,7 +213,7 @@ ul li::marker {
 
 @media only screen and (max-width: 750px) {
     body {
-        font-size: 18px;
+        font-size: 19px;
     }
 
     main {
