@@ -92,11 +92,7 @@ main {
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
     line-height: 1.15em;
 }
 
@@ -112,6 +108,7 @@ h2 {
 h3 {
     font-size: 1.15em;
     margin-top: 1.5em;
+    line-height: 1.25em;
 }
 
 h4,
@@ -119,6 +116,7 @@ h5,
 h6 {
     font-size: 1em;
     margin-top: 1em;
+    line-height: 1.25em;
 }
 
 hr {
@@ -219,19 +217,19 @@ ul li::marker {
     }
 
     main {
-        padding: 0 0.75em 1em 0.75em;
+        padding-top: 0.5em;
     }
 
-    header > nav,
+    /*header > nav,
     footer > div {
         padding: 0 0.75em;
-    }
+    }*/
 
     /*img {
         max-width: 100vw;
     }*/
 
-    blockquote {
+    /*blockquote {
         border-left-width: 0.75em;
-    }
+    }*/
 }
