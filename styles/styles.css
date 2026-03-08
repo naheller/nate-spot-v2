@@ -36,21 +36,21 @@
     --dark-2: #333545;
     --dark-3: #282a36;
 
-    --dark-4: #1d1f27; /* Used for code bg (dark mode) */
+    --dark-4: #1d1f27; /* Used for text color (light mode) and code bg (dark mode) */
 
     --serif: "Source Serif 4", serif;
 }
 
 body {
-    font-size: 22px;
+    font-size: 20px;
     font-family: var(--serif);
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
-    line-height: 1.6;
-    color: light-dark(var(--dark-3), var(--light-3));
+    line-height: 1.7;
+    color: light-dark(var(--dark-4), var(--light-3));
     background-color: light-dark(var(--light-3), var(--dark-3));
 }
 
@@ -64,7 +64,7 @@ header > nav,
 footer > div {
     margin: 0.5em auto;
     padding: 0 1em;
-    max-width: 750px;
+    max-width: 700px;
 }
 
 nav {
@@ -82,7 +82,7 @@ nav > div {
 
 main {
     width: 100%;
-    max-width: 750px;
+    max-width: 700px;
     margin: auto;
     padding: 1em;
     display: flex;
@@ -143,8 +143,8 @@ p > code {
 }
 
 p {
-    margin-block-start: 1.25em;
-    margin-block-end: 1.25em;
+    margin-block-start: 1.5em;
+    margin-block-end: 1.5em;
 }
 
 figure {
@@ -211,9 +211,9 @@ ul li::marker {
     margin: 0;
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 700px) {
     body {
-        font-size: 19px;
+        font-size: 18px;
     }
 
     main {

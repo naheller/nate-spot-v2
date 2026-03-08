@@ -95,7 +95,7 @@ find "$notes_dir" \
         title=$(basename "$file" .md)
         slug=$(slugify "$title")
         page_dir="$site_dir/$slug"
-        updated_at=$(date -r "$file" +%Y-%m-%d)
+        updated_at=$(date -r "$file" +"%-d %b %Y")
 
         # Don't make the home page into a note
         if [[ "$title" == $home_page_name ]]; then
