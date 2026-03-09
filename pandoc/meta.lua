@@ -21,10 +21,11 @@ end
 
 -- Convert internal links to .html
 function Link(el)
-    -- Only slugify if link is not pointing to external URL.
-    -- Must always include http when inserting external links in markdown.
-    -- if string.find(el.target, "^" .. "http") == nil then
-    if not string.match(el.target, "^http") then
+    -- If external link, open in new window
+    -- Else if internal link, slugify and add leading slash
+    if string.match(el.target, "^http") then
+        el.attributes.target = "_blank"
+    else
         local slug = slugify(pandoc.utils.stringify(el.content))
         el.target = "/" .. slug
     end
