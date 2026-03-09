@@ -21,10 +21,11 @@ end
 
 -- Convert internal links to .html
 function Link(el)
-    -- If external link, open in new window
+    -- If external link, open in new window and add arrow symbol
     -- Else if internal link, slugify and add leading slash
     if string.match(el.target, "^http") then
         el.attributes.target = "_blank"
+        el.content = pandoc.utils.stringify(el.content) .. utf8.char(0x2197)
     else
         local slug = slugify(pandoc.utils.stringify(el.content))
         el.target = "/" .. slug
