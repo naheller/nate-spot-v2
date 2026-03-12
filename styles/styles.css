@@ -1,79 +1,119 @@
 @font-face {
     font-display: swap;
-    font-family: "Source Serif 4";
+    font-family: "PT Serif";
     font-style: normal;
     font-weight: 400;
-    src: url("../fonts/source-serif-400.woff2") format("woff2");
+    src: url("../fonts/pt-serif-400.woff2") format("woff2");
 }
 
 @font-face {
     font-display: swap;
-    font-family: "Source Serif 4";
+    font-family: "PT Serif";
     font-style: italic;
     font-weight: 400;
-    src: url("../fonts/source-serif-400-italic.woff2") format("woff2");
+    src: url("../fonts/pt-serif-400-italic.woff2") format("woff2");
 }
 
 @font-face {
     font-display: swap;
-    font-family: "Source Serif 4";
-    font-style: bold;
+    font-family: "PT Serif";
+    font-style: normal;
     font-weight: 700;
-    src: url("../fonts/source-serif-700.woff2") format("woff2");
+    src: url("../fonts/pt-serif-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "PT Serif";
+    font-style: italic;
+    font-weight: 700;
+    src: url("../fonts/pt-serif-700-italic.woff2") format("woff2");
 }
 
 :root {
     color-scheme: light dark;
 
-    --light-3: #fcfcfd;
-    --light-2: #edeef2;
-    --light-1: #dee0e7;
+    /* https://tailwindcss.com/docs/colors */
 
-    --light-0: #cfd2dd; /* Used for note meta (dark mode) */
-    --dark-0: #494c62;
+    --stone-9: oklch(92.3% 0.003 48.717);
+    --stone-8: oklch(86.9% 0.005 56.366);
+    --stone-7: oklch(70.9% 0.01 56.259);
+    --stone-6: oklch(55.3% 0.013 58.071);
+    --stone-5: oklch(44.4% 0.011 73.639);
+    --stone-4: oklch(37.4% 0.01 67.558);
+    --stone-3: oklch(26.8% 0.007 34.298);
+    --stone-2: oklch(21.6% 0.006 56.043);
+    --stone-1: oklch(14.7% 0.004 49.25);
 
-    --dark-1: #3e4153;
-    --dark-2: #333545;
-    --dark-3: #282a36;
+    --taupe-9: oklch(92.2% 0.005 34.3);
+    --taupe-8: oklch(86.8% 0.007 39.5);
+    --taupe-7: oklch(71.4% 0.014 41.2);
+    --taupe-6: oklch(54.7% 0.021 43.1);
+    --taupe-5: oklch(43.8% 0.017 39.3);
+    --taupe-4: oklch(36.7% 0.016 35.7);
+    --taupe-3: oklch(26.8% 0.011 36.5);
+    --taupe-2: oklch(21.4% 0.009 43.1);
+    --taupe-1: oklch(14.7% 0.004 49.3);
 
-    --dark-4: #1d1f27; /* Used for text color (light mode) and code bg (dark mode) */
+    --accent-stone: oklch(83.7% 0.128 66.29);
+    --accent-light: oklch(43.2% 0.095 166.913);
 
-    --serif: "Source Serif 4", serif;
+    --serif: "PT Serif", serif;
+    --content-width: 60ch;
 }
 
 body {
-    font-size: 20px;
+    font-size: 18px;
+    /*font-weight: 500;*/
     font-family: var(--serif);
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
-    line-height: 1.7;
-    color: light-dark(var(--dark-4), var(--light-3));
-    background-color: light-dark(var(--light-3), var(--dark-3));
+    line-height: 1.6;
+    color: light-dark(var(--taupe-1), var(--stone-9));
+    background-color: light-dark(var(--taupe-9), var(--stone-2));
 }
 
 header,
 footer {
-    color: light-dark(var(--dark-1), var(--light-1));
-    background-color: light-dark(var(--light-2), var(--dark-2));
+    color: light-dark(var(--taupe-4), var(--stone-7));
+    background-color: light-dark(var(--taupe-8), var(--stone-3));
+    line-height: 1.5;
+}
+
+#site-logo-link {
+    /*font-family: monospace;*/
+    color: light-dark(var(--taupe-1), var(--stone-9));
+    font-size: 1.25em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#site-logo-link:hover {
+    color: light-dark(var(--accent-light), var(--accent-stone));
 }
 
 header > nav,
 footer > div {
     margin: 0.5em auto;
     padding: 0 1em;
-    max-width: 700px;
+    max-width: var(--content-width);
 }
 
-nav {
+/*nav {
     display: flex;
     justify-content: space-between;
-}
+}*/
 
-nav > div {
+/*nav > div {
     width: max-content;
+}*/
+
+.nav-left {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .nav-right > a:not(:first-child) {
@@ -82,13 +122,22 @@ nav > div {
 
 main {
     width: 100%;
-    max-width: 700px;
+    max-width: var(--content-width);
     margin: auto;
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+}
+
+a {
+    text-decoration: none;
+    color: light-dark(var(--accent-light), var(--accent-stone));
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 h1,
@@ -122,15 +171,16 @@ h6 {
 hr {
     border: none;
     height: 2px;
-    border-top: 1px solid light-dark(var(--light-1), var(--dark-1));
-    background-color: light-dark(var(--light-1), var(--dark-1));
+    border-top: 1px solid light-dark(var(--taupe-7), var(--stone-4));
+    background-color: light-dark(var(--taupe-7), var(--stone-4));
 }
 
 code,
 pre {
     overflow-x: auto;
-    background-color: light-dark(var(--dark-1), var(--dark-4));
-    color: var(--light-3);
+    background-color: light-dark(var(--taupe-4), var(--stone-1));
+    color: light-dark(var(--taupe-9), var(--stone-9));
+    font-size: 0.95em;
 }
 
 pre {
@@ -139,7 +189,7 @@ pre {
 }
 
 p > code {
-    padding: 0 0.1em;
+    padding: 0.1em 0.15em 0 0.15em;
 }
 
 p {
@@ -159,6 +209,7 @@ figure figcaption {
 
 img {
     max-width: 100%;
+    border-radius: 0.25em;
 }
 
 blockquote {
@@ -167,10 +218,10 @@ blockquote {
     margin-inline-start: 0;
     margin-inline-end: 0;
     font-style: italic;
-    background-color: light-dark(var(--light-2), var(--dark-2));
+    background-color: light-dark(var(--taupe-8), var(--stone-3));
     padding: 1em 1.5em;
-    border-left: 1em solid light-dark(var(--light-1), var(--dark-1));
-    color: light-dark(var(--dark-3), var(--light-3));
+    border-left: 0.5em solid light-dark(var(--taupe-7), var(--stone-4));
+    color: light-dark(var(--taupe-2), var(--stone-8));
 }
 
 blockquote p {
@@ -184,7 +235,8 @@ blockquote > p:not(:first-child) {
 code,
 pre,
 blockquote {
-    font-size: 0.95em;
+    /*font-size: 0.9em;*/
+    border-radius: 0.25em;
 }
 
 ul,
@@ -202,23 +254,24 @@ ul li::marker {
 }*/
 
 #note-meta {
-    color: light-dark(var(--dark-0), var(--light-0));
+    color: light-dark(var(--taupe-4), var(--stone-7));
     font-size: smaller;
-    margin-top: 3em;
+    /*font-style: italic;*/
+    margin-top: 1em;
 }
 
 #note-meta p {
     margin: 0;
 }
 
-@media only screen and (max-width: 700px) {
-    body {
+@media only screen and (max-width: 768px) {
+    /*body {
         font-size: 18px;
     }
 
     main {
-        padding-top: 0.5em;
-    }
+        padding-top: 0;
+    }*/
 
     /*header > nav,
     footer > div {
