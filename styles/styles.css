@@ -32,9 +32,25 @@
 
 @font-face {
     font-display: swap;
-    font-family: "Inconsolata";
-    font-style: italic;
+    font-family: "PT Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/pt-sans-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "PT Sans";
+    font-style: bold;
     font-weight: 700;
+    src: url("../fonts/pt-sans-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Inconsolata";
+    font-style: normal;
+    font-weight: 400;
     src: url("../fonts/inconsolata-400.woff2") format("woff2");
 }
 
@@ -63,6 +79,16 @@
     --taupe-2: oklch(21.4% 0.009 43.1);
     --taupe-1: oklch(14.7% 0.004 49.3);
 
+    /*--mist-9: oklch(92.5% 0.005 214.3);
+    --mist-8: oklch(87.2% 0.007 219.6);
+    --mist-7: oklch(72.3% 0.014 214.4);
+    --mist-6: oklch(56% 0.021 213.5);
+    --mist-5: oklch(45% 0.017 213.2);
+    --mist-4: oklch(37.8% 0.015 216);
+    --mist-3: oklch(27.5% 0.011 216.9);
+    --mist-2: oklch(21.8% 0.008 223.9);
+    --mist-1: oklch(14.8% 0.004 228.8);*/
+
     --taupe-0: oklch(
         9.2% 0.002 54.8
     ); /* Extra dark for text color in light mode */
@@ -71,8 +97,9 @@
     --accent-light: oklch(43.2% 0.095 166.913);
 
     --serif: "PT Serif", serif;
+    --sans-serif: "PT Sans", sans-serif;
     --mono: "Inconsolata", monospace;
-    --content-width: 60ch;
+    --content-width: 575px;
 }
 
 body {
@@ -86,7 +113,6 @@ body {
     line-height: 1.6;
     color: light-dark(var(--taupe-0), var(--stone-9));
     background-color: light-dark(var(--taupe-9), var(--stone-2));
-    border: 1px solid light-dark(var(--taupe-7), var(--stone-4));
 }
 
 header,
@@ -94,14 +120,7 @@ footer {
     color: light-dark(var(--taupe-4), var(--stone-7));
     background-color: light-dark(var(--taupe-8), var(--stone-3));
     line-height: 1.5;
-}
-
-header {
-    border-bottom: 1px solid light-dark(var(--taupe-7), var(--stone-4));
-}
-
-footer {
-    border-top: 1px solid light-dark(var(--taupe-7), var(--stone-4));
+    font-family: var(--sans-serif);
 }
 
 header > nav,
@@ -155,6 +174,7 @@ h1,
 h2 {
     line-height: 1.15em;
     color: light-dark(var(--taupe-1), var(--stone-9));
+    font-family: var(--sans-serif);
 }
 
 h1 {
@@ -171,6 +191,7 @@ h3 {
     margin-top: 1.5em;
     line-height: 1.25em;
     color: light-dark(var(--taupe-1), var(--stone-9));
+    font-family: var(--sans-serif);
 }
 
 h4,
@@ -180,6 +201,7 @@ h6 {
     margin-top: 1em;
     line-height: 1.25em;
     color: light-dark(var(--taupe-1), var(--stone-9));
+    font-family: var(--sans-serif);
 }
 
 hr {
@@ -200,14 +222,10 @@ pre {
 pre {
     padding: 0.5em;
     line-height: 1.5;
-    /*border-radius: 0.25em;*/
-    /*font-size: 0.95em;*/
-    border: 1px solid light-dark(var(--taupe-7), var(--stone-4));
 }
 
 p > code {
     padding: 0 0.15em;
-    /*font-size: 0.9em;*/
 }
 
 p {
@@ -227,8 +245,6 @@ figure figcaption {
 
 img {
     max-width: 100%;
-    /*border-radius: 0.25em;*/
-    border: 1px solid light-dark(var(--taupe-7), var(--stone-4));
 }
 
 blockquote {
@@ -239,9 +255,7 @@ blockquote {
     font-style: italic;
     background-color: light-dark(var(--taupe-8), var(--stone-3));
     padding: 1em 1.5em;
-    border: 1px solid light-dark(var(--taupe-7), var(--stone-4));
-    border-left-width: 0.5em;
-    /*border-radius: 0.25em;*/
+    border-left: 0.5em solid light-dark(var(--taupe-7), var(--stone-4));
     color: light-dark(var(--taupe-2), var(--stone-8));
 }
 
@@ -264,6 +278,7 @@ ul li::marker {
 
 #note-meta {
     color: light-dark(var(--taupe-4), var(--stone-7));
+    font-family: var(--sans-serif);
     font-size: smaller;
     margin-top: 1em;
 }
@@ -273,11 +288,12 @@ ul li::marker {
 }
 
 @media only screen and (max-width: 768px) {
-    /*body {
-        font-size: 18px;
-    }
-    */
     main {
         padding-top: 0.5em;
+    }
+
+    code,
+    pre {
+        font-size: 0.95em;
     }
 }
