@@ -291,9 +291,4 @@ ul li::marker {
     main {
         padding-top: 0.5em;
     }
-
-    code,
-    pre {
-        font-size: 0.95em;
-    }
 }
