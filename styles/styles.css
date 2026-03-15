@@ -99,11 +99,11 @@
     --serif: "PT Serif", serif;
     --sans-serif: "PT Sans", sans-serif;
     --mono: "Inconsolata", monospace;
-    --content-width: 575px;
+    --content-width: 650px;
 }
 
 body {
-    font-size: 18px;
+    font-size: 20px;
     font-family: var(--serif);
     min-height: 100vh;
     min-height: 100dvh;
@@ -280,7 +280,7 @@ ul li::marker {
     color: light-dark(var(--taupe-4), var(--stone-7));
     font-family: var(--sans-serif);
     font-size: smaller;
-    margin-top: 1em;
+    margin-top: 2em;
 }
 
 #note-meta p {
@@ -288,6 +288,10 @@ ul li::marker {
 }
 
 @media only screen and (max-width: 768px) {
+    body {
+        font-size: 18px;
+    }
+
     main {
         padding-top: 0.5em;
     }
