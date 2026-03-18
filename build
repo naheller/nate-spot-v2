@@ -61,9 +61,9 @@ home_page_md_temp="$temp_dir/$home_page_name.md"
 notes_index_md_temp="$temp_dir/Notes.md"
 tags_index_md_temp="$temp_dir/Tags.md"
 
-notes_index_description="All my thoughts and jots, with the most recently updated on top.\n\n"
+notes_index_description="All my thoughts and jots, with the most recently updated on top.\n\n---\n\n"
 tags_index_description="Some of the topics I've scribbled about.\n\n"
-tag_page_description="My notes on this topic. Check out all the other [tags](/tags/index.html) for more.\n\n"
+tag_page_description="My notes on this topic. Check out all the other [tags](/tags/index.html) for more.\n\n---\n\n"
 
 # Use printf instead of echo so newlines (\n) are handled properly
 touch $notes_index_md_temp
@@ -105,7 +105,11 @@ find "$notes_dir" \
         echo "Making page: $slug"
 
         mkdir -p "$page_dir" # Assumes directory does not exist. Duplicate file names are possible...
-        tags=$(
+
+        {
+            read -r tags;
+            read -r excerpt;
+        } < <(
             pandoc "$file" -o "$page_dir/index.html" \
                 --metadata title="$title" \
                 --metadata updated_at="$updated_at" \
@@ -115,21 +119,27 @@ find "$notes_dir" \
                 --include-after-body pandoc/footer.html
         )
 
+        echo "TAGS: $tags"
+        echo "EXCERPT: $excerpt"
+
+        note_preview="[$title](/$slug) -- $excerpt\n\n"
+
         # Add link to note in notes index markdown file
-        echo "- [$title](/$slug)" >> $notes_index_md_temp
+        printf "$note_preview" >> $notes_index_md_temp
 
         # Make tags pages
         IFS=',' read -a tag_array <<< "$tags"
 
         for tag in "${tag_array[@]}"; do
             tag_page_md_temp="$tags_dir_temp/$tag.md"
+            # echo "$tag_page_md_temp"
 
             if [[ ! -f "$tag_page_md_temp" ]]; then
                 touch "$tag_page_md_temp"
                 printf "$tag_page_description" >> $tag_page_md_temp
             fi
 
-            echo "- [$title](/$slug)" >> $tag_page_md_temp
+            printf "$note_preview" >> $tag_page_md_temp
         done
 done
 

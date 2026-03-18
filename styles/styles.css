@@ -110,6 +110,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
+    text-wrap: pretty;
     line-height: 1.6;
     color: light-dark(var(--taupe-0), var(--stone-9));
     background-color: light-dark(var(--taupe-9), var(--stone-2));
@@ -206,9 +207,10 @@ h6 {
 
 hr {
     border: none;
-    height: 2px;
-    border-top: 2px solid light-dark(var(--taupe-8), var(--stone-3));
-    background-color: light-dark(var(--taupe-8), var(--stone-3));
+    width: 50%;
+    height: 3px;
+    border-top: 3px solid light-dark(var(--taupe-7), var(--stone-4));
+    background-color: light-dark(var(--taupe-7), var(--stone-4));
 }
 
 code,

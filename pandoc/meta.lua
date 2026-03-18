@@ -1,5 +1,5 @@
 function Meta(meta)
-    -- local filename = pandoc.utils.stringify(PANDOC_STATE.input_files)
+    local tags = ""
 
     if meta.tags and #meta.tags > 0 then
         local tags_list = {}
@@ -11,11 +11,11 @@ function Meta(meta)
         end
 
         local tags_list_concat = table.concat(tags_list, ",")
-        local tags_string_concat = pandoc.utils.stringify(tags_list_concat)
-
-        io.write(tags_string_concat)
+        tags = pandoc.utils.stringify(tags_list_concat)
     end
 
+    -- Must write out tags even if empty so output array in build script lines up
+    io.write(tags .. "\n")
     return meta
 end
 
@@ -44,6 +44,31 @@ function Image(img)
     img.attributes.loading = "lazy"
 
     return img
+end
+
+function Pandoc(doc)
+    local excerpt = ""
+
+    for _, el in ipairs(doc.blocks) do
+        if el.t == "Para" then
+            local words = {}
+
+            for _, inline in ipairs(el.content) do
+                if inline.t == "Str" then
+                    table.insert(words, inline.text)
+                elseif inline.t == "Link" then
+                    local text = pandoc.utils.stringify(inline.content)
+                    table.insert(words, text)
+                end
+            end
+
+            excerpt = table.concat(words, " ")
+            break
+        end
+    end
+
+    io.write(excerpt .. "\n")
+    return doc
 end
 
 function slugify(str)
