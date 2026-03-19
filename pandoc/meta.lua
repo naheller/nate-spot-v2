@@ -34,14 +34,22 @@ function Link(el)
     return el
 end
 
+-- Keep track of images so we don't lazy load the first one
+local image_count = 0
+
 function Image(img)
     -- local source_dir = os.getenv("PANDOC_SOURCE")
 
     -- Need to add leading slash to image path, since Obsidian does not do this
     img.src = "/" .. img.src
 
-    -- Enable lazy loading
-    img.attributes.loading = "lazy"
+    image_count = image_count + 1
+
+    if image_count > 1 then
+        -- Enable lazy loading and async decoding
+        img.attributes.loading = "lazy"
+        img.attributes.decoding = "async"
+    end
 
     return img
 end
