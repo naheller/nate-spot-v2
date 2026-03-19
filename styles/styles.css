@@ -58,7 +58,6 @@
     color-scheme: light dark;
 
     /* https://tailwindcss.com/docs/colors */
-
     --stone-9: oklch(92.3% 0.003 48.717);
     --stone-8: oklch(86.9% 0.005 56.366);
     --stone-7: oklch(70.9% 0.01 56.259);
@@ -69,32 +68,7 @@
     --stone-2: oklch(21.6% 0.006 56.043);
     --stone-1: oklch(14.7% 0.004 49.25);
 
-    --taupe-9: oklch(92.2% 0.005 34.3);
-    --taupe-8: oklch(86.8% 0.007 39.5);
-    --taupe-7: oklch(71.4% 0.014 41.2);
-    --taupe-6: oklch(54.7% 0.021 43.1);
-    --taupe-5: oklch(43.8% 0.017 39.3);
-    --taupe-4: oklch(36.7% 0.016 35.7);
-    --taupe-3: oklch(26.8% 0.011 36.5);
-    --taupe-2: oklch(21.4% 0.009 43.1);
-    --taupe-1: oklch(14.7% 0.004 49.3);
-
-    /*--mist-9: oklch(92.5% 0.005 214.3);
-    --mist-8: oklch(87.2% 0.007 219.6);
-    --mist-7: oklch(72.3% 0.014 214.4);
-    --mist-6: oklch(56% 0.021 213.5);
-    --mist-5: oklch(45% 0.017 213.2);
-    --mist-4: oklch(37.8% 0.015 216);
-    --mist-3: oklch(27.5% 0.011 216.9);
-    --mist-2: oklch(21.8% 0.008 223.9);
-    --mist-1: oklch(14.8% 0.004 228.8);*/
-
-    --taupe-0: oklch(
-        9.2% 0.002 54.8
-    ); /* Extra dark for text color in light mode */
-
     --accent-stone: oklch(83.7% 0.128 66.29);
-    --accent-light: oklch(43.2% 0.095 166.913);
 
     --serif: "PT Serif", serif;
     --sans-serif: "PT Sans", sans-serif;
@@ -110,16 +84,16 @@ body {
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
-    text-wrap: pretty;
+    /*text-wrap: pretty;*/
     line-height: 1.6;
-    color: light-dark(var(--taupe-0), var(--stone-9));
-    background-color: light-dark(var(--taupe-9), var(--stone-2));
+    color: var(--stone-9);
+    background-color: var(--stone-2);
 }
 
 header,
 footer {
-    color: light-dark(var(--taupe-4), var(--stone-7));
-    background-color: light-dark(var(--taupe-8), var(--stone-3));
+    color: var(--stone-7);
+    background-color: var(--stone-3);
     line-height: 1.5;
     font-family: var(--sans-serif);
 }
@@ -132,14 +106,14 @@ footer > div {
 }
 
 #site-logo-link {
-    color: light-dark(var(--taupe-1), var(--stone-9));
+    color: var(--stone-9);
     font-size: 1.25em;
     font-weight: bold;
     text-decoration: none;
 }
 
 #site-logo-link:hover {
-    color: light-dark(var(--accent-light), var(--accent-stone));
+    color: var(--accent-stone);
 }
 
 .nav-left {
@@ -164,7 +138,7 @@ main {
 
 a {
     text-decoration: none;
-    color: light-dark(var(--accent-light), var(--accent-stone));
+    color: var(--accent-stone);
 }
 
 a:hover {
@@ -174,7 +148,7 @@ a:hover {
 h1,
 h2 {
     line-height: 1.15em;
-    color: light-dark(var(--taupe-1), var(--stone-9));
+    color: var(--stone-9);
     font-family: var(--sans-serif);
 }
 
@@ -191,7 +165,7 @@ h3 {
     font-size: 1.15em;
     margin-top: 1.5em;
     line-height: 1.25em;
-    color: light-dark(var(--taupe-1), var(--stone-9));
+    color: var(--stone-9);
     font-family: var(--sans-serif);
 }
 
@@ -201,23 +175,23 @@ h6 {
     font-size: 1em;
     margin-top: 1em;
     line-height: 1.25em;
-    color: light-dark(var(--taupe-1), var(--stone-9));
+    color: var(--stone-9);
     font-family: var(--sans-serif);
 }
 
 hr {
     border: none;
-    width: 50%;
-    height: 3px;
-    border-top: 3px solid light-dark(var(--taupe-7), var(--stone-4));
-    background-color: light-dark(var(--taupe-7), var(--stone-4));
+    width: 66%;
+    height: 2px;
+    border-top: 2px solid var(--stone-4);
+    background-color: var(--stone-4);
 }
 
 code,
 pre {
     overflow-x: auto;
-    background-color: light-dark(var(--taupe-4), var(--stone-1));
-    color: light-dark(var(--taupe-9), var(--stone-9));
+    background-color: var(--stone-1);
+    color: var(--stone-9);
     font-family: var(--mono);
 }
 
@@ -255,10 +229,10 @@ blockquote {
     margin-inline-start: 0;
     margin-inline-end: 0;
     font-style: italic;
-    background-color: light-dark(var(--taupe-8), var(--stone-3));
+    background-color: var(--stone-3);
     padding: 1em 1.5em;
-    border-left: 0.5em solid light-dark(var(--taupe-7), var(--stone-4));
-    color: light-dark(var(--taupe-2), var(--stone-8));
+    border-left: 0.5em solid var(--stone-4);
+    color: var(--stone-8);
 }
 
 blockquote p {
@@ -279,7 +253,7 @@ ul li::marker {
 }
 
 #note-meta {
-    color: light-dark(var(--taupe-4), var(--stone-7));
+    color: var(--stone-7);
     font-family: var(--sans-serif);
     font-size: smaller;
     margin-top: 2em;

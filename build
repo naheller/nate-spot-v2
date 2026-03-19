@@ -31,6 +31,7 @@ function capitalize() {
 }
 
 notes_dir="$HOME/Documents/Notes/Natespot"
+logs_dir="$notes_dir/log"
 proj_dir="$HOME/Projects/nate-spot-v2"
 site_dir="$proj_dir/site"
 
@@ -65,6 +66,9 @@ notes_index_description="All my thoughts and jots, with the most recently update
 tags_index_description="Some of the topics I've scribbled about.\n\n"
 tag_page_description="My notes on this topic. Check out all the other [tags](/tags/index.html) for more.\n\n---\n\n"
 
+# Can be referenced as $home_page_md_temp
+cp "$home_page_md" "$temp_dir"
+
 # Use printf instead of echo so newlines (\n) are handled properly
 touch $notes_index_md_temp
 printf "$notes_index_description" >> $notes_index_md_temp
@@ -88,6 +92,7 @@ tags_index_html="$tags_dir/index.html"
 # -type d -name "$exclude_dir" -prune -o \
 #
 find "$notes_dir" \
+    -maxdepth 1 \
     -type f ! -name "*.sync-conflict*" -name "*.md" -printf '%T@ %p\0' | \
     sort -z -nr | \
     while IFS= read -r -d '' entry; do
@@ -118,9 +123,6 @@ find "$notes_dir" \
                 --include-before-body pandoc/header.html \
                 --include-after-body pandoc/footer.html
         )
-
-        echo "TAGS: $tags"
-        echo "EXCERPT: $excerpt"
 
         note_preview="[$title](/$slug) -- $excerpt\n\n"
 
@@ -172,9 +174,21 @@ for tag_md in "$tags_dir_temp"/*.md; do
 done
 
 # Make home page
+echo "Adding log files to home page"
+
+printf "\n\n---\n\n" >> "$home_page_md_temp"
+
+for file in $(ls "$logs_dir"/*.md | sort -r); do
+    file_name=$(basename "$file" .md)
+    file_contents=$(cat "$file")
+    file_date=$(date -d "$file_name" "+%b %-d")
+    # printf "<span style='font-weight:bold;font-family:var(--sans-serif)'>$file_date</span> -- $file_contents\n\n" >> "$home_page_md_temp"
+    printf "**$file_date** -- $file_contents\n\n" >> "$home_page_md_temp"
+done
+
 echo "Making home page"
 
-pandoc "$home_page_md" -o "$home_page_html" \
+pandoc "$home_page_md_temp" -o "$home_page_html" \
     --template pandoc/template.html \
     --lua-filter=pandoc/meta.lua \
     --include-before-body pandoc/header.html \
