@@ -91,6 +91,7 @@ tags_index_html="$tags_dir/index.html"
 # For reference, how to exclude a dir:
 # -type d -name "$exclude_dir" -prune -o \
 #
+note_idx=0
 find "$notes_dir" \
     -maxdepth 1 \
     -type f ! -name "*.sync-conflict*" -name "*.md" -printf '%T@ %p\0' | \
@@ -126,6 +127,18 @@ find "$notes_dir" \
 
         note_preview="[$title](/$slug) -- $excerpt\n\n"
 
+        if [[ $note_idx == 0 ]]; then
+            echo "Adding most recently updated note to home page"
+
+            pencil_emoji='\u270f'
+            # printf "\n\n---\n\n" >> "$home_page_md_temp"
+            printf "\n\n::: {#recent-note}" >> "$home_page_md_temp"
+            printf "\n\n### $pencil_emoji Recently updated note\n\n" >> "$home_page_md_temp"
+            printf "$note_preview" >> "$home_page_md_temp"
+            # printf ":::{#view-all-notes}\n\nView all [notes](/notes)\n\n:::\n\n" >> "$home_page_md_temp"
+            printf ":::\n\n" >> "$home_page_md_temp"
+        fi
+
         # Add link to note in notes index markdown file
         printf "$note_preview" >> $notes_index_md_temp
 
@@ -143,6 +156,9 @@ find "$notes_dir" \
 
             printf "$note_preview" >> $tag_page_md_temp
         done
+
+        # TODO: Optimize this
+        note_idx=$((note_idx + 1))
 done
 
 # For each tag markdown file:
@@ -177,6 +193,7 @@ done
 echo "Adding log files to home page"
 
 printf "\n\n---\n\n" >> "$home_page_md_temp"
+printf "\n\n### Micro blog {#feed-header} \n\n" >> "$home_page_md_temp"
 
 for file in $(ls "$logs_dir"/*.md | sort -r); do
     file_name=$(basename "$file" .md)

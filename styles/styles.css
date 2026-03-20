@@ -223,6 +223,28 @@ img {
     max-width: 100%;
 }
 
+#recent-note {
+    margin-block-start: 1.5em;
+    margin-block-end: 1.5em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    background-color: var(--stone-3);
+    padding: 1em 1.5em;
+    color: var(--stone-8);
+}
+
+#recent-note #recently-updated-note {
+    margin-top: 0.25em;
+}
+
+#recent-note p {
+    margin-bottom: 0.25em;
+}
+
+#feed-header {
+    text-align: center;
+}
+
 blockquote {
     margin-block-start: 1.5em;
     margin-block-end: 1.5em;
