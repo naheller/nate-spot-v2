@@ -68,6 +68,16 @@
     --stone-2: oklch(21.6% 0.006 56.043);
     --stone-1: oklch(14.7% 0.004 49.25);
 
+    --zinc-9: oklch(92% 0.004 286.32);
+    --zinc-8: oklch(87.1% 0.006 286.286);
+    --zinc-7: oklch(70.5% 0.015 286.067);
+    --zinc-6: oklch(55.2% 0.016 285.938);
+    --zinc-5: oklch(44.2% 0.017 285.786);
+    --zinc-4: oklch(37% 0.013 285.805);
+    --zinc-3: oklch(27.4% 0.006 286.033);
+    --zinc-2: oklch(21% 0.006 285.885);
+    --zinc-1: oklch(14.1% 0.005 285.823);
+
     --accent-stone: oklch(83.7% 0.128 66.29);
 
     --serif: "PT Serif", serif;
@@ -86,14 +96,14 @@ body {
     overflow-wrap: break-word;
     /*text-wrap: pretty;*/
     line-height: 1.6;
-    color: var(--stone-9);
-    background-color: var(--stone-2);
+    color: light-dark(var(--zinc-9), var(--stone-9));
+    background-color: light-dark(var(--zinc-2), var(--stone-2));
 }
 
 header,
 footer {
-    color: var(--stone-7);
-    background-color: var(--stone-3);
+    color: light-dark(var(--zinc-7), var(--stone-7));
+    background-color: light-dark(var(--zinc-3), var(--stone-3));
     line-height: 1.5;
     font-family: var(--sans-serif);
 }
@@ -106,7 +116,7 @@ footer > div {
 }
 
 #site-logo-link {
-    color: var(--stone-9);
+    color: light-dark(var(--zinc-9), var(--stone-9));
     font-size: 1.25em;
     font-weight: bold;
     text-decoration: none;
@@ -114,6 +124,17 @@ footer > div {
 
 #site-logo-link:hover {
     color: var(--accent-stone);
+}
+
+/*#nav-img {
+    height: 50px;
+    margin-right: 1em;
+    margin-top: 0.25em;
+}*/
+
+nav {
+    display: flex;
+    align-items: center;
 }
 
 .nav-left {
@@ -148,7 +169,7 @@ a:hover {
 h1,
 h2 {
     line-height: 1.15em;
-    color: var(--stone-9);
+    color: light-dark(var(--zinc-9), var(--stone-9));
     font-family: var(--sans-serif);
 }
 
@@ -165,7 +186,7 @@ h3 {
     font-size: 1.15em;
     margin-top: 1.5em;
     line-height: 1.25em;
-    color: var(--stone-9);
+    color: light-dark(var(--zinc-9), var(--stone-9));
     font-family: var(--sans-serif);
 }
 
@@ -175,7 +196,7 @@ h6 {
     font-size: 1em;
     margin-top: 1em;
     line-height: 1.25em;
-    color: var(--stone-9);
+    color: light-dark(var(--zinc-9), var(--stone-9));
     font-family: var(--sans-serif);
 }
 
@@ -183,21 +204,22 @@ hr {
     border: none;
     width: 66%;
     height: 2px;
-    border-top: 2px solid var(--stone-4);
-    background-color: var(--stone-4);
+    border-top: 2px solid light-dark(var(--zinc-4), var(--stone-4));
+    background-color: light-dark(var(--zinc-4), var(--stone-4));
 }
 
 code,
 pre {
     overflow-x: auto;
-    background-color: var(--stone-1);
-    color: var(--stone-9);
+    background-color: light-dark(var(--zinc-1), var(--stone-1));
+    color: light-dark(var(--zinc-9), var(--stone-9));
     font-family: var(--mono);
 }
 
 pre {
     padding: 0.5em;
     line-height: 1.5;
+    border-radius: 0.25em;
 }
 
 p > code {
@@ -221,6 +243,7 @@ figure figcaption {
 
 img {
     max-width: 100%;
+    border-radius: 0.25em;
 }
 
 #recent-note {
@@ -228,9 +251,10 @@ img {
     margin-block-end: 1.5em;
     margin-inline-start: 0;
     margin-inline-end: 0;
-    background-color: var(--stone-3);
+    background-color: light-dark(var(--zinc-3), var(--stone-3));
     padding: 1em 1.5em;
-    color: var(--stone-8);
+    color: light-dark(var(--zinc-8), var(--stone-8));
+    border-radius: 0.25em;
 }
 
 #recent-note #recently-updated-note {
@@ -241,8 +265,21 @@ img {
     margin-bottom: 0.25em;
 }
 
-#feed-header {
+#micro-blog-header {
+    margin-top: 1.5em;
+}
+
+#micro-blog-header * {
+    margin: 0;
     text-align: center;
+}
+
+.footnotes {
+    margin-top: 1.5em;
+}
+
+.footnotes * {
+    margin-bottom: 0;
 }
 
 blockquote {
@@ -251,10 +288,11 @@ blockquote {
     margin-inline-start: 0;
     margin-inline-end: 0;
     font-style: italic;
-    background-color: var(--stone-3);
+    background-color: light-dark(var(--zinc-3), var(--stone-3));
     padding: 1em 1.5em;
-    border-left: 0.5em solid var(--stone-4);
-    color: var(--stone-8);
+    border-left: 0.5em solid light-dark(var(--zinc-4), var(--stone-4));
+    color: light-dark(var(--zinc-8), var(--stone-8));
+    border-radius: 0.25em;
 }
 
 blockquote p {
@@ -275,7 +313,7 @@ ul li::marker {
 }
 
 #note-meta {
-    color: var(--stone-7);
+    color: light-dark(var(--zinc-7), var(--stone-7));
     font-family: var(--sans-serif);
     font-size: smaller;
     margin-top: 2em;
