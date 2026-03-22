@@ -194,9 +194,9 @@ echo "Adding log files to home page"
 
 printf "\n\n---\n\n" >> "$home_page_md_temp"
 printf "\n\n::: {#micro-blog-header}" >> "$home_page_md_temp"
-printf "\n\n### Micro blog\n\n" >> "$home_page_md_temp"
+printf "\n\n### Microblog\n\n" >> "$home_page_md_temp"
 printf "\n\n*Daily sights and shouts[^1]*\n\n" >> "$home_page_md_temp"
-printf "\n\n[^1]: Unlike my [notes](/notes), these posts are perishable and will disappear over time. Get 'em while they're hot! \n\n" >> "$home_page_md_temp"
+printf "\n\n[^1]: Unlike my [notes](/notes), these are just trivial updates that disappear over time. Get 'em while they're hot! \n\n" >> "$home_page_md_temp"
 printf ":::\n\n" >> "$home_page_md_temp"
 
 for file in $(ls "$logs_dir"/*.md | sort -r); do

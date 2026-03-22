@@ -78,7 +78,7 @@
     --zinc-2: oklch(21% 0.006 285.885);
     --zinc-1: oklch(14.1% 0.005 285.823);
 
-    --accent-stone: oklch(83.7% 0.128 66.29);
+    --accent-zinc: oklch(83.7% 0.128 66.29);
 
     --serif: "PT Serif", serif;
     --sans-serif: "PT Sans", sans-serif;
@@ -96,14 +96,14 @@ body {
     overflow-wrap: break-word;
     /*text-wrap: pretty;*/
     line-height: 1.6;
-    color: light-dark(var(--zinc-9), var(--stone-9));
-    background-color: light-dark(var(--zinc-2), var(--stone-2));
+    color: var(--zinc-9);
+    background-color: var(--zinc-2);
 }
 
 header,
 footer {
-    color: light-dark(var(--zinc-7), var(--stone-7));
-    background-color: light-dark(var(--zinc-3), var(--stone-3));
+    color: var(--zinc-7);
+    background-color: var(--zinc-3);
     line-height: 1.5;
     font-family: var(--sans-serif);
 }
@@ -116,14 +116,14 @@ footer > div {
 }
 
 #site-logo-link {
-    color: light-dark(var(--zinc-9), var(--stone-9));
+    color: var(--zinc-9);
     font-size: 1.25em;
     font-weight: bold;
     text-decoration: none;
 }
 
 #site-logo-link:hover {
-    color: var(--accent-stone);
+    color: var(--accent-zinc);
 }
 
 /*#nav-img {
@@ -159,7 +159,7 @@ main {
 
 a {
     text-decoration: none;
-    color: var(--accent-stone);
+    color: var(--accent-zinc);
 }
 
 a:hover {
@@ -169,7 +169,7 @@ a:hover {
 h1,
 h2 {
     line-height: 1.15em;
-    color: light-dark(var(--zinc-9), var(--stone-9));
+    color: var(--zinc-9);
     font-family: var(--sans-serif);
 }
 
@@ -186,7 +186,7 @@ h3 {
     font-size: 1.15em;
     margin-top: 1.5em;
     line-height: 1.25em;
-    color: light-dark(var(--zinc-9), var(--stone-9));
+    color: var(--zinc-9);
     font-family: var(--sans-serif);
 }
 
@@ -196,7 +196,7 @@ h6 {
     font-size: 1em;
     margin-top: 1em;
     line-height: 1.25em;
-    color: light-dark(var(--zinc-9), var(--stone-9));
+    color: var(--zinc-9);
     font-family: var(--sans-serif);
 }
 
@@ -204,15 +204,15 @@ hr {
     border: none;
     width: 66%;
     height: 2px;
-    border-top: 2px solid light-dark(var(--zinc-4), var(--stone-4));
-    background-color: light-dark(var(--zinc-4), var(--stone-4));
+    border-top: 2px solid var(--zinc-4);
+    background-color: var(--zinc-4);
 }
 
 code,
 pre {
     overflow-x: auto;
-    background-color: light-dark(var(--zinc-1), var(--stone-1));
-    color: light-dark(var(--zinc-9), var(--stone-9));
+    background-color: var(--zinc-1);
+    color: var(--zinc-9);
     font-family: var(--mono);
 }
 
@@ -251,18 +251,18 @@ img {
     margin-block-end: 1.5em;
     margin-inline-start: 0;
     margin-inline-end: 0;
-    background-color: light-dark(var(--zinc-3), var(--stone-3));
-    padding: 1em 1.5em;
-    color: light-dark(var(--zinc-8), var(--stone-8));
+    background-color: var(--zinc-3);
+    padding: 1em 1.25em;
+    color: var(--zinc-8);
     border-radius: 0.25em;
 }
 
 #recent-note #recently-updated-note {
-    margin-top: 0.25em;
+    margin-top: 0;
 }
 
 #recent-note p {
-    margin-bottom: 0.25em;
+    margin-bottom: 0;
 }
 
 #micro-blog-header {
@@ -288,10 +288,10 @@ blockquote {
     margin-inline-start: 0;
     margin-inline-end: 0;
     font-style: italic;
-    background-color: light-dark(var(--zinc-3), var(--stone-3));
-    padding: 1em 1.5em;
-    border-left: 0.5em solid light-dark(var(--zinc-4), var(--stone-4));
-    color: light-dark(var(--zinc-8), var(--stone-8));
+    background-color: var(--zinc-3);
+    padding: 1em 1.25em;
+    border-left: 0.5em solid var(--zinc-4);
+    color: var(--zinc-8);
     border-radius: 0.25em;
 }
 
@@ -313,7 +313,7 @@ ul li::marker {
 }
 
 #note-meta {
-    color: light-dark(var(--zinc-7), var(--stone-7));
+    color: var(--zinc-7);
     font-family: var(--sans-serif);
     font-size: smaller;
     margin-top: 2em;
